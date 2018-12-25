@@ -3,11 +3,11 @@ package com.techyourchance.journeytodependencyinjection.screens.common.activitie
 import android.support.v7.app.AppCompatActivity;
 
 import com.techyourchance.journeytodependencyinjection.MyApplication;
-import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.CompositionRoot;
+import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.PresentationCompositionRoot;
 
 public class BaseActivity extends AppCompatActivity {
 
-    protected CompositionRoot getCompositionRoot() {
-        return ((MyApplication) getApplication()).getCompositionRoot();
+    protected PresentationCompositionRoot getCompositionRoot() {
+        return ((MyApplication) getApplication()).getCompositionRoot().getPresentationCompositionRoot(this);
     }
 }

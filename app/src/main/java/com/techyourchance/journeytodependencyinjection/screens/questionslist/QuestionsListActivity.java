@@ -29,13 +29,13 @@
      protected void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
 
-         mViewMvc = new QuestionsListViewMvcImpl(LayoutInflater.from(this), null);
+         mViewMvc = getCompositionRoot().getViewMvcFactory().newInstance(QuestionsListViewMvc.class,null);
 
          setContentView(mViewMvc.getRootView());
 
          mFetchQuestionsListUseCase = getCompositionRoot().getFetchQuestionsListUseCase();
 
-         mDialogsManager = new DialogsManager(getSupportFragmentManager());
+         mDialogsManager = getCompositionRoot().getDialogsManager();
 
      }
 

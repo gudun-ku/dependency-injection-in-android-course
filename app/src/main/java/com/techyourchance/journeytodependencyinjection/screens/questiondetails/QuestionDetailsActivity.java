@@ -36,7 +36,7 @@
      protected void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
 
-         mViewMvc = new QuestionDetailsViewMvcImpl(LayoutInflater.from(this), null);
+         mViewMvc =  getCompositionRoot().getViewMvcFactory().newInstance(QuestionDetailsViewMvc.class,null);;
 
          setContentView(mViewMvc.getRootView());
 
@@ -45,7 +45,7 @@
          //noinspection ConstantConditions
          mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
 
-         mDialogsManager = new DialogsManager(getSupportFragmentManager());
+         mDialogsManager = getCompositionRoot().getDialogsManager();
      }
 
      @Override

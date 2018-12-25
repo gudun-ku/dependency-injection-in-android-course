@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dependency-injection-in-android-course.iml" filepath="$PROJECT_DIR$/dependency-injection-in-android-course.iml" />
       <module fileurl="file://$PROJECT_DIR$/journey_to_di.iml" filepath="$PROJECT_DIR$/journey_to_di.iml" />
     </modules>
   </component>

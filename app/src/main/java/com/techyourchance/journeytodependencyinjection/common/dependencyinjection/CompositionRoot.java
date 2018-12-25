@@ -1,6 +1,7 @@
 package com.techyourchance.journeytodependencyinjection.common.dependencyinjection;
 
 import android.support.annotation.UiThread;
+import android.support.v7.app.AppCompatActivity;
 
 import com.techyourchance.journeytodependencyinjection.Constants;
 import com.techyourchance.journeytodependencyinjection.networking.StackoverflowApi;
@@ -15,6 +16,7 @@ public class CompositionRoot {
 
     private Retrofit mRetrofit;
     private StackoverflowApi mStackoverflowApi;
+    private PresentationCompositionRoot mPresentationCompositionRoot;
 
     private Retrofit getRetrofit() {
         if (mRetrofit == null) {
@@ -32,6 +34,15 @@ public class CompositionRoot {
         }
         return mStackoverflowApi;
     }
+
+    public PresentationCompositionRoot getPresentationCompositionRoot(AppCompatActivity activity) {
+        if (mPresentationCompositionRoot == null) {
+            mPresentationCompositionRoot = new PresentationCompositionRoot(this,
+                    activity.getSupportFragmentManager());
+        }
+        return mPresentationCompositionRoot;
+    }
+
 
     public FetchQuestionsListUseCase getFetchQuestionsListUseCase() {
         return new FetchQuestionsListUseCase(getStackoverflowApi());
