@@ -5,6 +5,8 @@
  import android.view.LayoutInflater;
 
  import com.techyourchance.journeytodependencyinjection.MyApplication;
+ import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.Service;
+ import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.ViewMvcFactory;
  import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionsListUseCase;
  import com.techyourchance.journeytodependencyinjection.questions.Question;
  import com.techyourchance.journeytodependencyinjection.screens.common.activities.BaseActivity;
@@ -19,24 +21,22 @@
 
      private static final int NUM_OF_QUESTIONS_TO_FETCH = 20;
 
-     private FetchQuestionsListUseCase mFetchQuestionsListUseCase;
+     @Service private ViewMvcFactory mViewMvcFactory;
+
+     @Service private DialogsManager mDialogsManager;
+
+     @Service private FetchQuestionsListUseCase mFetchQuestionsListUseCase;
 
      private QuestionsListViewMvc mViewMvc;
-
-     private DialogsManager mDialogsManager;
 
      @Override
      protected void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
+         getInjector().inject(this);
 
-         mViewMvc = getCompositionRoot().getViewMvcFactory().newInstance(QuestionsListViewMvc.class,null);
+         mViewMvc = mViewMvcFactory.newInstance(QuestionsListViewMvc.class,null);
 
          setContentView(mViewMvc.getRootView());
-
-         mFetchQuestionsListUseCase = getCompositionRoot().getFetchQuestionsListUseCase();
-
-         mDialogsManager = getCompositionRoot().getDialogsManager();
-
      }
 
      @Override

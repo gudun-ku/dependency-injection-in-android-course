@@ -35,15 +35,6 @@ public class CompositionRoot {
         return mStackoverflowApi;
     }
 
-    public PresentationCompositionRoot getPresentationCompositionRoot(AppCompatActivity activity) {
-        if (mPresentationCompositionRoot == null) {
-            mPresentationCompositionRoot = new PresentationCompositionRoot(this,
-                    activity.getSupportFragmentManager());
-        }
-        return mPresentationCompositionRoot;
-    }
-
-
     public FetchQuestionsListUseCase getFetchQuestionsListUseCase() {
         return new FetchQuestionsListUseCase(getStackoverflowApi());
     }

@@ -1,7 +1,6 @@
 package com.techyourchance.journeytodependencyinjection.screens.questionslist;
 
 import com.techyourchance.journeytodependencyinjection.questions.Question;
-import com.techyourchance.journeytodependencyinjection.questions.QuestionWithBody;
 import com.techyourchance.journeytodependencyinjection.screens.common.mvcviews.ObservableViewMvc;
 
 import java.util.List;

@@ -3,12 +3,11 @@
  import android.content.Context;
  import android.content.Intent;
  import android.os.Bundle;
- import android.support.v7.app.AppCompatActivity;
- import android.view.LayoutInflater;
 
- import com.techyourchance.journeytodependencyinjection.MyApplication;
+ import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.Service;
+ import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.ViewMvcFactory;
  import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionDetailsUseCase;
- import com.techyourchance.journeytodependencyinjection.questions.QuestionWithBody;
+ import com.techyourchance.journeytodependencyinjection.questions.QuestionDetails;
  import com.techyourchance.journeytodependencyinjection.screens.common.activities.BaseActivity;
  import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.DialogsManager;
  import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.ServerErrorDialogFragment;
@@ -24,28 +23,32 @@
          context.startActivity(intent);
      }
 
+     @Service private ViewMvcFactory mViewMvcFactory;
+
+     @Service private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
+
+     @Service private DialogsManager mDialogsManager;
+
      private String mQuestionId;
 
      private QuestionDetailsViewMvc mViewMvc;
 
-     private FetchQuestionDetailsUseCase mFetchQuestionDetailsUseCase;
 
-     private DialogsManager mDialogsManager;
+
+
 
      @Override
      protected void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
+         getInjector().inject(this);
 
-         mViewMvc =  getCompositionRoot().getViewMvcFactory().newInstance(QuestionDetailsViewMvc.class,null);;
+         mViewMvc =  mViewMvcFactory.newInstance(QuestionDetailsViewMvc.class,null);;
 
          setContentView(mViewMvc.getRootView());
-
-         mFetchQuestionDetailsUseCase = getCompositionRoot().getFetchQuestionDetailsUseCase();
 
          //noinspection ConstantConditions
          mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
 
-         mDialogsManager = getCompositionRoot().getDialogsManager();
      }
 
      @Override
@@ -53,7 +56,6 @@
          super.onStart();
          mViewMvc.registerListener(this);
          mFetchQuestionDetailsUseCase.registerListener(this);
-
          mFetchQuestionDetailsUseCase.fetchQuestionDetailsAndNotify(mQuestionId);
      }
 
@@ -65,7 +67,7 @@
      }
 
      @Override
-     public void onFetchOfQuestionDetailsSucceeded(QuestionWithBody question) {
+     public void onFetchOfQuestionDetailsSucceeded(QuestionDetails question) {
          mViewMvc.bindQuestion(question);
      }
 

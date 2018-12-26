@@ -2,31 +2,24 @@ package com.techyourchance.journeytodependencyinjection.questions;
 
 import android.support.annotation.Nullable;
 
-import com.techyourchance.journeytodependencyinjection.Constants;
 import com.techyourchance.journeytodependencyinjection.common.BaseObservable;
-import com.techyourchance.journeytodependencyinjection.networking.QuestionsListResponseSchema;
-import com.techyourchance.journeytodependencyinjection.networking.SingleQuestionResponseSchema;
+import com.techyourchance.journeytodependencyinjection.networking.QuestionDetailsResponseSchema;
 import com.techyourchance.journeytodependencyinjection.networking.StackoverflowApi;
-
-import java.util.Collections;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDetailsUseCase.Listener> {
 
     public interface Listener {
-        void onFetchOfQuestionDetailsSucceeded(QuestionWithBody question);
+        void onFetchOfQuestionDetailsSucceeded(QuestionDetails question);
         void onFetchOfQuestionDetailsFailed();
     }
 
     private final StackoverflowApi mStackoverflowApi;
 
-    @Nullable Call<SingleQuestionResponseSchema> mCall;
+    @Nullable Call<QuestionDetailsResponseSchema> mCall;
 
     public FetchQuestionDetailsUseCase(StackoverflowApi stackoverflowApi) {
         mStackoverflowApi = stackoverflowApi;
@@ -37,9 +30,9 @@ public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDet
         cancelCurrentFetchIfActive();
 
         mCall = mStackoverflowApi.questionDetails(questionId);
-        mCall.enqueue(new Callback<SingleQuestionResponseSchema>() {
+        mCall.enqueue(new Callback<QuestionDetailsResponseSchema>() {
             @Override
-            public void onResponse(Call<SingleQuestionResponseSchema> call, Response<SingleQuestionResponseSchema> response) {
+            public void onResponse(Call<QuestionDetailsResponseSchema> call, Response<QuestionDetailsResponseSchema> response) {
                 if (response.isSuccessful()) {
                     notifySucceeded(response.body().getQuestion());
                 } else {
@@ -48,10 +41,21 @@ public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDet
             }
 
             @Override
-            public void onFailure(Call<SingleQuestionResponseSchema> call, Throwable t) {
+            public void onFailure(Call<QuestionDetailsResponseSchema> call, Throwable t) {
                 notifyFailed();
             }
         });
+    }
+
+    private QuestionDetails questionDetailsFromQuestionSchema(QuestionDetailsResponseSchema questionDetailsResponseSchema) {
+        QuestionDetails question = questionDetailsResponseSchema.getQuestion();
+        return new QuestionDetails(
+                question.getId(),
+                question.getTitle(),
+                question.getBody(),
+                question.getBodyMarkdown(),
+                question.getOwner()
+        );
     }
 
     private void cancelCurrentFetchIfActive() {
@@ -60,7 +64,7 @@ public class FetchQuestionDetailsUseCase extends BaseObservable<FetchQuestionDet
         }
     }
 
-    private void notifySucceeded(QuestionWithBody question) {
+    private void notifySucceeded(QuestionDetails question) {
         for (Listener listener : getListeners()) {
             listener.onFetchOfQuestionDetailsSucceeded(question);
         }

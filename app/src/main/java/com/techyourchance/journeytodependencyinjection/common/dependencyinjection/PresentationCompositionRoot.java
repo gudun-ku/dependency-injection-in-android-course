@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.bumptech.glide.request.RequestOptions;
+import com.techyourchance.journeytodependencyinjection.networking.ImageLoader;
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionDetailsUseCase;
 import com.techyourchance.journeytodependencyinjection.questions.FetchQuestionsListUseCase;
 import com.techyourchance.journeytodependencyinjection.screens.common.dialogs.DialogsManager;
@@ -41,7 +43,11 @@ public class PresentationCompositionRoot {
     }
 
     public ViewMvcFactory getViewMvcFactory() {
-        return new ViewMvcFactory(getActivity().getLayoutInflater());
+        return new ViewMvcFactory(getActivity().getLayoutInflater(), new ImageLoader(getActivity(),new RequestOptions()));
+    }
+
+    public ImageLoader getImageLoader(AppCompatActivity activity) {
+        return new ImageLoader(activity, new RequestOptions());
     }
 
 

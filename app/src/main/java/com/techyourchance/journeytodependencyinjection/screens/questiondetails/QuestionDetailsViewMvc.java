@@ -1,8 +1,7 @@
 package com.techyourchance.journeytodependencyinjection.screens.questiondetails;
 
-import com.techyourchance.journeytodependencyinjection.questions.QuestionWithBody;
+import com.techyourchance.journeytodependencyinjection.questions.QuestionDetails;
 import com.techyourchance.journeytodependencyinjection.screens.common.mvcviews.ObservableViewMvc;
-import com.techyourchance.journeytodependencyinjection.screens.common.mvcviews.ViewMvc;
 
 public interface QuestionDetailsViewMvc extends ObservableViewMvc<QuestionDetailsViewMvc.Listener> {
 
@@ -10,5 +9,5 @@ public interface QuestionDetailsViewMvc extends ObservableViewMvc<QuestionDetail
         // currently no user actions
     }
 
-    void bindQuestion(QuestionWithBody question);
+    void bindQuestion(QuestionDetails question);
 }
