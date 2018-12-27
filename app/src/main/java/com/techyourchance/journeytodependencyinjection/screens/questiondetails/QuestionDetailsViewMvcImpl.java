@@ -1,7 +1,12 @@
 package com.techyourchance.journeytodependencyinjection.screens.questiondetails;
 
+import android.animation.Animator;
+import android.animation.LayoutTransition;
+import android.animation.TimeInterpolator;
 import android.text.Html;
+import android.text.Layout;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,5 +58,11 @@ public class QuestionDetailsViewMvcImpl extends BaseViewMvc<QuestionDetailsViewM
             }
             mImageLoader.loadImage(userAvatarUrl, mImgUserAvatar);
         }
+
+        ViewGroup container = findViewById(R.id.question_head_container);
+
+        //LayoutTransition layoutTransition = container.getLayoutTransition();
+        //layoutTransition.setAnimator(LayoutTransition.APPEARING, );
+
     }
 }

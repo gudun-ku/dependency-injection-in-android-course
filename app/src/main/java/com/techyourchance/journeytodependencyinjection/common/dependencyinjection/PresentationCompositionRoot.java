@@ -43,7 +43,8 @@ public class PresentationCompositionRoot {
     }
 
     public ViewMvcFactory getViewMvcFactory() {
-        return new ViewMvcFactory(getActivity().getLayoutInflater(), new ImageLoader(getActivity(),new RequestOptions()));
+        return new ViewMvcFactory(getActivity().getLayoutInflater(),
+                new ImageLoader(getActivity(),new RequestOptions()));
     }
 
     public ImageLoader getImageLoader(AppCompatActivity activity) {
