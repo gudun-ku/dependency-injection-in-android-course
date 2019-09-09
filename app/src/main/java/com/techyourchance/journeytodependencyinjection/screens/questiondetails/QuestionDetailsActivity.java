@@ -48,6 +48,7 @@
 
          //noinspection ConstantConditions
          mQuestionId = getIntent().getExtras().getString(EXTRA_QUESTION_ID);
+         overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
 
      }
 
@@ -74,5 +75,11 @@
      @Override
      public void onFetchOfQuestionDetailsFailed() {
          mDialogsManager.showRetainedDialogWithId(ServerErrorDialogFragment.newInstance(), "");
+     }
+
+     @Override
+     public void finish() {
+         super.finish();
+         overridePendingTransition(android.support.v7.appcompat.R.anim.abc_fade_in, android.support.v7.appcompat.R.anim.abc_fade_out);
      }
  }
