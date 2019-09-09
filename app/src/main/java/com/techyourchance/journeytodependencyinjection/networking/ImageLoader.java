@@ -1,5 +1,6 @@
 package com.techyourchance.journeytodependencyinjection.networking;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
@@ -8,11 +9,11 @@ import com.bumptech.glide.request.RequestOptions;
 
 public class ImageLoader {
 
-    private final AppCompatActivity mActivity;
+    private final Activity mActivity;
 
     private final RequestOptions mDefaultRequestOptions;
 
-    public ImageLoader(AppCompatActivity activity, RequestOptions defaultRequestOptions) {
+    public ImageLoader(Activity activity, RequestOptions defaultRequestOptions) {
         mActivity = activity;
         mDefaultRequestOptions = new RequestOptions().centerCrop();
     }

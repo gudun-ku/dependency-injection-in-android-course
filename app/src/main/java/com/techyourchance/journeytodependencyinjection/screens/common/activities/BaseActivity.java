@@ -4,10 +4,11 @@ import android.support.annotation.UiThread;
 import android.support.v7.app.AppCompatActivity;
 
 import com.techyourchance.journeytodependencyinjection.MyApplication;
-import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.CompositionRoot;
 import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.Injector;
-import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.PresentationCompositionRoot;
-import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.ViewMvcFactory;
+import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.application.ApplicationComponent;
+import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.presentation.DaggerPresentationComponent;
+import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.presentation.PresentationComponent;
+import com.techyourchance.journeytodependencyinjection.common.dependencyinjection.presentation.PresentationModule;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -19,17 +20,19 @@ public class BaseActivity extends AppCompatActivity {
             throw new RuntimeException("There is no need to use injector more than once");
         }
         mIsInjectorUsed = true;
-        return new Injector(getCompositionRoot());
+        return new Injector(getPresentationComponent());
     }
 
 
-    private CompositionRoot getApplicationCompositionRoot() {
-        return ((MyApplication) getApplication()).getCompositionRoot();
+    private ApplicationComponent getApplicationComponent() {
+        return ((MyApplication) getApplication()).getApplicationComponent();
     }
 
-    private PresentationCompositionRoot getCompositionRoot() {
-        return new PresentationCompositionRoot(getApplicationCompositionRoot(),this);
-    }
+    private PresentationComponent getPresentationComponent() {
+        return DaggerPresentationComponent.builder()
+                .presentationModule(new PresentationModule(this, getApplicationComponent()))
+                .build();
 
+    }
 
 }
